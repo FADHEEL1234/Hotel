@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Tourism{% endblock %}
+
+{% block content %}
+  <section class="card" style="margin-bottom: 28px; background: linear-gradient(135deg, #fff1ea 0%, #ffffff 60%);">
+    <div style="display: grid; gap: 18px;">
+      <div class="chip">Curated trips • 24/7 support</div>
+      <h2 style="margin: 0; font-size: 32px;">Plan a memorable trip with a team that handles the details.</h2>
+      <p class="muted" style="margin: 0; font-size: 16px;">
+        Boutique stays, local guides, and clear pricing in one place. We match you with the right tour in minutes.
+      </p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a class="btn" href="{% url 'myapp:tour_list' %}">See tours</a>
+        <a class="btn btn-outline" href="{% url 'myapp:contact' %}">Talk to us</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: grid; gap: 18px;">
+    <div class="card">
+      <h3 style="margin-top: 0;">What makes us different</h3>
+      <div style="display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));">
+        <div>
+          <strong>Design-led itineraries</strong>
+          <p class="muted">Trips are crafted by local insiders and tested by real travelers.</p>
+        </div>
+        <div>
+          <strong>Flexible stays</strong>
+          <p class="muted">Swap hotels and activities without losing the flow of your plan.</p>
+        </div>
+        <div>
+          <strong>Transparent pricing</strong>
+          <p class="muted">No surprises, no hidden fees. You see the total up front.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+        <h3 style="margin: 0;">Latest tours</h3>
+        <a class="btn btn-outline" href="{% url 'myapp:tour_list' %}">All tours</a>
+      </div>
+      {% if latest_tours %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 16px;">
+          {% for tour in latest_tours %}
+            <div style="padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff;">
+              {% if tour.image %}
+                <a
+                  href="{{ tour.image.url }}"
+                  data-lightbox
+                  data-full="{{ tour.image.url }}"
+                  data-caption="{{ tour.title }}"
+                >
+                  <img
+                    src="{{ tour.image.url }}"
+                    alt="{{ tour.title }}"
+                    loading="lazy"
+                    decoding="async"
+                    style="width: 100%; height: 160px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--line);"
+                  >
+                </a>
+              {% endif %}
+              <strong style="display: block; margin-bottom: 4px;">{{ tour.title }}</strong>
+              <span class="muted" style="font-size: 13px;">{{ tour.location }}</span>
+              <p style="margin: 12px 0; font-weight: 600; color: var(--accent);">
+                ${{ tour.price }}
+              </p>
+              <a class="btn" href="{% url 'myapp:tour_detail' tour.id %}">View details</a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="muted" style="margin-top: 12px;">No tours yet. Add a few in the admin panel to feature them here.</p>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

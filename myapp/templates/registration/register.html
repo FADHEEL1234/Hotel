@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Register | Tourism{% endblock %}
+
+{% block content %}
+  <div class="card" style="max-width: 520px; margin: 0 auto;">
+    <h2 style="margin-top: 0;">Create your account</h2>
+    <p class="muted">Join to save tours and manage bookings faster.</p>
+
+    {% if form.errors %}
+      <div style="background: #fff3f0; border: 1px solid #ffd2c9; padding: 12px; border-radius: 10px; margin: 12px 0;">
+        <strong>There were errors.</strong> Please review your entries.
+      </div>
+    {% endif %}
+
+    <form method="post" style="display: grid; gap: 12px; margin-top: 16px;">
+      {% csrf_token %}
+      <label>
+        Username
+        <input
+          type="text"
+          name="username"
+          autocomplete="username"
+          required
+          value="{{ form.username.value|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Password
+        <input
+          type="password"
+          name="password1"
+          autocomplete="new-password"
+          required
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Confirm password
+        <input
+          type="password"
+          name="password2"
+          autocomplete="new-password"
+          required
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <button class="btn" type="submit">Create account</button>
+    </form>
+    <div style="margin-top: 20px; border-top: 1px solid var(--line); padding-top: 12px; font-size: 14px;">
+      <span class="muted">Already have an account?</span>
+      <a href="{% url 'myapp:login' %}">Login</a>
+    </div>
+  </div>
+{% endblock %}

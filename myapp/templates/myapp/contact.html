@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Contact | Tourism{% endblock %}
+
+{% block content %}
+  <div class="card" style="display: grid; gap: 16px;">
+    <div>
+      <h2 style="margin: 0 0 6px;">Contact our travel team</h2>
+      <p class="muted" style="margin: 0;">
+        Tell us about your destination, dates, and budget. We will respond within 24 hours.
+      </p>
+    </div>
+
+    {% if errors %}
+      <div style="background: #fff3f0; border: 1px solid #ffd2c9; padding: 12px; border-radius: 10px;">
+        <strong>Please fix the following:</strong>
+        <ul style="margin: 8px 0 0 18px;">
+          {% for error in errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post" style="display: grid; gap: 12px;">
+      {% csrf_token %}
+      <label>
+        Full name
+        <input
+          type="text"
+          name="name"
+          placeholder="Your name"
+          value="{{ form.name|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+          required
+        />
+      </label>
+      <label>
+        Email address
+        <input
+          type="email"
+          name="email"
+          placeholder="you@email.com"
+          value="{{ form.email|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+          required
+        />
+      </label>
+      <label>
+        Subject
+        <input
+          type="text"
+          name="subject"
+          placeholder="Subject"
+          value="{{ form.subject|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Destination
+        <input
+          type="text"
+          name="destination"
+          placeholder="City or country"
+          value="{{ form.destination|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Message
+        <textarea
+          name="message"
+          rows="5"
+          placeholder="Tell us what you need..."
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        >{{ form.message|default_if_none:'' }}</textarea>
+      </label>
+      <button class="btn" type="submit">Send request</button>
+      <p class="muted" style="margin: 0;">Or email us directly at contact@tourismhotel.com</p>
+    </form>
+  </div>
+{% endblock %}

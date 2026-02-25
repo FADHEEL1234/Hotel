@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Messages | Tourism{% endblock %}
+
+{% block content %}
+  <div class="card" style="margin-bottom: 20px;">
+    <h2 style="margin: 0 0 6px;">Message notifications</h2>
+    <p class="muted" style="margin: 0;">Replies from the admin team will appear here.</p>
+  </div>
+
+  {% if messages %}
+    <div style="display: grid; gap: 16px;">
+      {% for item in messages %}
+        <div class="card">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
+            <strong>{{ item.subject|default:"Admin reply" }}</strong>
+            {% if item.replied_at %}
+              <span class="muted">{{ item.replied_at|date:"F j, Y" }}</span>
+            {% endif %}
+          </div>
+          {% if item.destination %}
+            <p class="muted" style="margin: 6px 0 0;">Destination: {{ item.destination }}</p>
+          {% endif %}
+          <p style="margin: 10px 0 0;">{{ item.reply }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card">
+      <p class="muted">No replies yet. When admin responds, you will see it here.</p>
+    </div>
+  {% endif %}
+{% endblock %}

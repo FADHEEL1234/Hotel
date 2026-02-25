@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Profile | Tourism{% endblock %}
+
+{% block content %}
+  <div class="card" style="max-width: 640px; margin: 0 auto;">
+    <h2 style="margin-top: 0;">My profile</h2>
+    <p class="muted">Update your contact details.</p>
+
+    <form method="post" enctype="multipart/form-data" style="display: grid; gap: 12px; margin-top: 16px;">
+      {% csrf_token %}
+      <div style="display: grid; gap: 10px;">
+        {% if request.user.profile.avatar %}
+          <img src="{{ request.user.profile.avatar.url }}" alt="Profile photo" style="width: 120px; height: 120px; object-fit: cover; border-radius: 16px;">
+        {% endif %}
+        <label>
+          Profile photo
+          <input
+            type="file"
+            name="avatar"
+            accept="image/*"
+            style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line); background: #fff;"
+          />
+        </label>
+      </div>
+      <label>
+        First name
+        <input
+          type="text"
+          name="first_name"
+          value="{{ user_form.first_name.value|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Last name
+        <input
+          type="text"
+          name="last_name"
+          value="{{ user_form.last_name.value|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Email
+        <input
+          type="email"
+          name="email"
+          value="{{ user_form.email.value|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Phone
+        <input
+          type="text"
+          name="phone"
+          value="{{ profile_form.phone.value|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <button class="btn" type="submit">Save changes</button>
+    </form>
+  </div>
+{% endblock %}

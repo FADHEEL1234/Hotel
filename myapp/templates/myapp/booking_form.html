@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Book {{ tour.title }} | Tourism{% endblock %}
+
+{% block content %}
+  <div class="card" style="max-width: 640px; margin: 0 auto;">
+    <h2 style="margin-top: 0;">Book {{ tour.title }}</h2>
+    <p class="muted">Complete the details below to request your booking.</p>
+
+    {% if errors %}
+      <div style="background: #fff3f0; border: 1px solid #ffd2c9; padding: 12px; border-radius: 10px; margin: 12px 0;">
+        <strong>Please fix the following:</strong>
+        <ul style="margin: 8px 0 0 18px;">
+          {% for error in errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post" style="display: grid; gap: 12px; margin-top: 16px;">
+      {% csrf_token %}
+      <label>
+        Travel date
+        <input
+          type="date"
+          name="travel_date"
+          required
+          value="{{ form.travel_date|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Number of people
+        <input
+          type="number"
+          name="people"
+          min="1"
+          required
+          value="{{ form.people|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Phone
+        <input
+          type="tel"
+          name="phone"
+          required
+          value="{{ form.phone|default_if_none:'' }}"
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Payment method
+        <select
+          name="payment_method"
+          required
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line); background: #fff;"
+        >
+          <option value="" {% if not form.payment_method %}selected{% endif %}>Choose a method</option>
+          <option value="mpesa" {% if form.payment_method == "mpesa" %}selected{% endif %}>M-Pesa</option>
+          <option value="tigopesa" {% if form.payment_method == "tigopesa" %}selected{% endif %}>Tigo Pesa</option>
+          <option value="airtel" {% if form.payment_method == "airtel" %}selected{% endif %}>Airtel Money</option>
+          <option value="crdb" {% if form.payment_method == "crdb" %}selected{% endif %}>CRDB</option>
+          <option value="nmb" {% if form.payment_method == "nmb" %}selected{% endif %}>NMB</option>
+          <option value="cash" {% if form.payment_method == "cash" %}selected{% endif %}>Cash</option>
+        </select>
+      </label>
+      <button class="btn" type="submit">Confirm booking</button>
+    </form>
+  </div>
+{% endblock %}

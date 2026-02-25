@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Login | Tourism{% endblock %}
+
+{% block content %}
+  <div class="card" style="max-width: 520px; margin: 0 auto;">
+    <h2 style="margin-top: 0;">Welcome back</h2>
+    <p class="muted">Sign in to manage your bookings and saved tours.</p>
+
+    {% if form.errors %}
+      <div style="background: #fff3f0; border: 1px solid #ffd2c9; padding: 12px; border-radius: 10px; margin: 12px 0;">
+        <strong>Login failed.</strong> Please check your username and password.
+      </div>
+    {% endif %}
+
+    <form method="post" style="display: grid; gap: 12px; margin-top: 16px;">
+      {% csrf_token %}
+      <label>
+        Username
+        <input
+          type="text"
+          name="username"
+          autocomplete="username"
+          required
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <label>
+        Password
+        <input
+          type="password"
+          name="password"
+          autocomplete="current-password"
+          required
+          style="width: 100%; padding: 11px; margin-top: 6px; border-radius: 10px; border: 1px solid var(--line);"
+        />
+      </label>
+      <button class="btn" type="submit">Login</button>
+    </form>
+    <p class="muted" style="margin: 12px 0 0;">
+      <a href="{% url 'myapp:password_reset' %}">Forgot your password?</a>
+    </p>
+    <div style="margin-top: 20px; border-top: 1px solid var(--line); padding-top: 12px; font-size: 14px;">
+      <span class="muted">No account yet?</span>
+      <a href="{% url 'myapp:register' %}">Create one</a>
+    </div>
+  </div>
+{% endblock %}
